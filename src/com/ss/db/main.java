@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ss;
+package com.ss.db;
 
 import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
@@ -16,13 +17,23 @@ public class main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // TODO code application logic here
+        Connection conn = null;
+        Statement statement = null;
         try {
-            DBUtil.getConnection(DBType.MYSQL);
+            conn = DBUtil.getConnection(DBType.MYSQL);
+            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             System.out.println("Connection Suucess");
         } catch (SQLException e) {
             DBUtil.processException(e);
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         }
     }
 
