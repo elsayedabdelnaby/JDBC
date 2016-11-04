@@ -5,9 +5,13 @@
  */
 package com.ss.db;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -19,7 +23,7 @@ public class DBUtil {
     private static final String PASSWORD = "";
     private static final String M_CONN_STRING = "jdbc:mysql://localhost/california";
 
-    public static Connection getConnection(DBType dbType) throws SQLException {
+    private static Connection getConnection(DBType dbType) throws SQLException {
         switch (dbType) {
             case MYSQL:
                 return DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
@@ -28,6 +32,23 @@ public class DBUtil {
             default:
                 return null;
         }
+    }
+
+    public static Statement getStatement(DBType dbType) throws SQLException{
+        Connection conn = DBUtil.getConnection(dbType);
+        Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        return statement;
+    }
+    
+    public static PreparedStatement getPreparedStatement(DBType dbType, String SQL) throws SQLException {
+        Connection conn = DBUtil.getConnection(dbType);
+        PreparedStatement statement = conn.prepareStatement(SQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        return statement;
+    }
+
+    public static CallableStatement getCallableStatement(DBType dbType, String SQL) throws SQLException {
+        Connection conn = DBUtil.getConnection(dbType);
+        return conn.prepareCall(SQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     }
 
     public static void processException(SQLException e) {

@@ -22,8 +22,7 @@ public class main {
         Connection conn = null;
         Statement statement = null;
         try {
-            conn = DBUtil.getConnection(DBType.MYSQL);
-            statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement = DBUtil.getStatement(DBType.MYSQL);
             System.out.println("Connection Suucess");
         } catch (SQLException e) {
             DBUtil.processException(e);

@@ -28,4 +28,11 @@ public class Tours {
             System.out.println(buffer.toString());
         }
     }
+
+    public static int getRowsNumber(ResultSet rs) throws SQLException {
+        rs.last();
+        int rowsNumber = rs.getRow();
+        rs.first();
+        return rowsNumber;
+    }
 }
