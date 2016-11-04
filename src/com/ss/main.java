@@ -16,10 +16,14 @@ public class main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         // TODO code application logic here
-        DBUtil.getConnection(DBType.MYSQL);
-        System.out.println("connection success");
+        try {
+            DBUtil.getConnection(DBType.MYSQL);
+            System.out.println("Connection Suucess");
+        } catch (SQLException e) {
+            DBUtil.processException(e);
+        }
     }
-    
+
 }

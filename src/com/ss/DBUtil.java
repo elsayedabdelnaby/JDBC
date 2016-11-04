@@ -29,4 +29,10 @@ public class DBUtil {
                 return null;
         }
     }
+
+    public static void processException(SQLException e) {
+        System.err.println("Error message:" + e.getMessage());
+        System.err.println("Error code:" + e.getErrorCode());
+        System.err.println("Sql state:" + e.getSQLState());
+    }
 }
