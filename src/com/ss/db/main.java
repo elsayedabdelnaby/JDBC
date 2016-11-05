@@ -20,18 +20,21 @@ public class main {
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        String SQL = "SELECT * FROM Tours where price <= ?";
         try {
             connection = DBUtil.getConnection(DBType.MYSQL);
-            statement = DBUtil.getStatement(connection);
-            statement.setMaxRows(5); // return only 5 rows 
-            // can use limit in sql statement as SELECT * FROM Tours Limit 5
-            ResultSet result = statement.executeQuery("SELECT * FROM Tours");
-            
+            statement = DBUtil.getPreparedStatement(connection, SQL);
+            statement.setDouble(1, 2000);// set the value of condition
+            result = statement.executeQuery();
 
         } catch (SQLException e) {
             DBUtil.processException(e);
         } finally {
+            if (result != null) {
+                result.close();
+            }
             if (statement != null) {
                 statement.close();
             }
