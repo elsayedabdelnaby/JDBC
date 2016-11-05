@@ -24,14 +24,11 @@ public class main {
         try {
             connection = DBUtil.getConnection(DBType.MYSQL);
             statement = DBUtil.getStatement(connection);
+            statement.setMaxRows(5); // return only 5 rows 
+            // can use limit in sql statement as SELECT * FROM Tours Limit 5
             ResultSet result = statement.executeQuery("SELECT * FROM Tours");
-            /*
-            Use Cursor To Move first, last and sepcific row
-            */
-            result.first();         // move to first row
-            result.last();          // move to last row
-            result.absolute(10);    // move to row number 10
             
+
         } catch (SQLException e) {
             DBUtil.processException(e);
         } finally {
