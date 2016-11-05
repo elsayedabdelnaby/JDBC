@@ -19,10 +19,11 @@ public class main {
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
-        Connection conn = null;
+        Connection connection = null;
         Statement statement = null;
         try {
-            statement = DBUtil.getStatement(DBType.MYSQL);
+            connection = DBUtil.getConnection(DBType.MYSQL);
+            statement = DBUtil.getStatement(connection);
             System.out.println("Connection Suucess");
         } catch (SQLException e) {
             DBUtil.processException(e);
@@ -30,8 +31,8 @@ public class main {
             if (statement != null) {
                 statement.close();
             }
-            if (conn != null) {
-                conn.close();
+            if (connection != null) {
+                connection.close();
             }
         }
     }

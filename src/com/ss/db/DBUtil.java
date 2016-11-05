@@ -23,7 +23,7 @@ public class DBUtil {
     private static final String PASSWORD = "";
     private static final String M_CONN_STRING = "jdbc:mysql://localhost/california";
 
-    private static Connection getConnection(DBType dbType) throws SQLException {
+    public static Connection getConnection(DBType dbType) throws SQLException {
         switch (dbType) {
             case MYSQL:
                 return DriverManager.getConnection(M_CONN_STRING, USERNAME, PASSWORD);
@@ -34,20 +34,17 @@ public class DBUtil {
         }
     }
 
-    public static Statement getStatement(DBType dbType) throws SQLException{
-        Connection conn = DBUtil.getConnection(dbType);
+    public static Statement getStatement(Connection conn) throws SQLException {
         Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         return statement;
     }
-    
-    public static PreparedStatement getPreparedStatement(DBType dbType, String SQL) throws SQLException {
-        Connection conn = DBUtil.getConnection(dbType);
+
+    public static PreparedStatement getPreparedStatement(Connection conn, String SQL) throws SQLException {
         PreparedStatement statement = conn.prepareStatement(SQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         return statement;
     }
 
-    public static CallableStatement getCallableStatement(DBType dbType, String SQL) throws SQLException {
-        Connection conn = DBUtil.getConnection(dbType);
+    public static CallableStatement getCallableStatement(Connection conn, String SQL) throws SQLException {
         return conn.prepareCall(SQL, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
     }
 
