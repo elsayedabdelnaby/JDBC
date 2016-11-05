@@ -23,13 +23,15 @@ public class main {
         Connection connection       = null;
         CallableStatement statement = null;
         ResultSet result            = null;
-        String SQL                  = "{ call getToursByPrice(?)}";
+        String SQL                  = "{ call getToursWithCountByPrice(?, ?)}";
+        // first question mark to condition and the second to recieve the value returned by procudure
         try {
-            // to call procudure in DB use CallableStatement
             connection  = DBUtil.getConnection(DBType.MYSQL);
             statement   = DBUtil.getCallableStatement(connection, SQL);
-            statement.setDouble(1, 2000);// set the value of condition
-            result      = statement.executeQuery();
+            statement.setDouble(1, 2000);
+            statement.registerOutParameter("total", Types.INTEGER); // set name for variable which recive the returned value from stored procedure
+            result          = statement.executeQuery();
+            int rowsNumber  = statement.getInt("total");// get the value from procedure
             Tours.displayData(result);
         } catch (SQLException e) {
             DBUtil.processException(e);
