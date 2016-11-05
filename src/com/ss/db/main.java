@@ -5,6 +5,8 @@
  */
 package com.ss.db;
 
+import com.ss.beans.Admin;
+import com.ss.db.tables.AdminManager;
 import com.ss.db.tables.Tours;
 import java.sql.SQLException;
 import java.sql.*;
@@ -20,31 +22,12 @@ public class main {
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
-        Connection connection       = null;
-        CallableStatement statement = null;
-        ResultSet result            = null;
-        String SQL                  = "{ call getToursWithCountByPrice(?, ?)}";
-        // first question mark to condition and the second to recieve the value returned by procudure
-        try {
-            connection  = DBUtil.getConnection(DBType.MYSQL);
-            statement   = DBUtil.getCallableStatement(connection, SQL);
-            statement.setDouble(1, 2000);
-            statement.registerOutParameter("total", Types.INTEGER); // set name for variable which recive the returned value from stored procedure
-            result          = statement.executeQuery();
-            int rowsNumber  = statement.getInt("total");// get the value from procedure
-            Tours.displayData(result);
-        } catch (SQLException e) {
-            DBUtil.processException(e);
-        } finally {
-            if (result != null) {
-                result.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+        Admin admin = new Admin();
+        admin = AdminManager.getAdmin(1);
+        if (admin != null) {
+            System.out.print("Admin Id = " + admin.getAdminId());
+            System.out.print("Admin Name = " + admin.getUserName());
+            System.out.print("Admin Password = " + admin.getPassword());
         }
     }
 
