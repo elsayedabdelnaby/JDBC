@@ -5,6 +5,7 @@
  */
 package com.ss.db;
 
+import com.ss.db.tables.Tours;
 import java.sql.SQLException;
 import java.sql.*;
 
@@ -19,16 +20,17 @@ public class main {
      */
     public static void main(String[] args) throws SQLException {
         // TODO code application logic here
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet result = null;
-        String SQL = "SELECT * FROM Tours where price <= ?";
+        Connection connection       = null;
+        CallableStatement statement = null;
+        ResultSet result            = null;
+        String SQL                  = "{ call getToursByPrice(?)}";
         try {
-            connection = DBUtil.getConnection(DBType.MYSQL);
-            statement = DBUtil.getPreparedStatement(connection, SQL);
+            // to call procudure in DB use CallableStatement
+            connection  = DBUtil.getConnection(DBType.MYSQL);
+            statement   = DBUtil.getCallableStatement(connection, SQL);
             statement.setDouble(1, 2000);// set the value of condition
-            result = statement.executeQuery();
-
+            result      = statement.executeQuery();
+            Tours.displayData(result);
         } catch (SQLException e) {
             DBUtil.processException(e);
         } finally {

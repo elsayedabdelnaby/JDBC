@@ -19,9 +19,9 @@ import java.sql.Statement;
  */
 public class DBUtil {
 
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "";
-    private static final String M_CONN_STRING = "jdbc:mysql://localhost/california";
+    private static final String USERNAME        = "root";
+    private static final String PASSWORD        = "";
+    private static final String M_CONN_STRING   = "jdbc:mysql://localhost/california";
 
     public static Connection getConnection(DBType dbType) throws SQLException {
         switch (dbType) {
